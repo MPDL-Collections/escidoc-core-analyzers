@@ -99,7 +99,8 @@ public class EscidocJapaneseAnalyzer extends Analyzer {
             for (int i = 0; i < tokenBuffer.length(); i++) {
                 int hexInt = Integer.parseInt(
                         charToHex(tokenBuffer.charAt(i)), 16);
-                if (hexInt > 12287 && hexInt < 13328) {
+                if ((hexInt > 12287) && (hexInt < 40879)) {
+                    log.debug("character <" + hexInt + ">");
                     isJapanese = true;
                     break;
                 }
