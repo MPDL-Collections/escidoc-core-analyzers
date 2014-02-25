@@ -33,6 +33,7 @@ import java.io.Reader;
 import java.util.regex.Pattern;
 
 import org.apache.lucene.analysis.CharTokenizer;
+import org.apache.lucene.util.Version;
 
 /**
  * @author mih
@@ -63,7 +64,6 @@ public class XmlWhitespaceTokenizer extends CharTokenizer {
      * \u003c <
      * \u003e >
      * \u0026 &
-     * \u002e .
      * \u002c ,
      * \u003b ;
      * \u0021 !
@@ -76,15 +76,11 @@ public class XmlWhitespaceTokenizer extends CharTokenizer {
      */
     @Override
     protected boolean isTokenChar(final char c) {
+    	
         if (Character.isWhitespace(c) || c == '\u003c' || c == '\u003e'
-            || c == '\u0026' || c == '\u002e' || c == '\u002c'
+            || c == '\u0026' || c == '\u002c'
             || c == '\u003b' || c == '\u0021' || c == '\u003f') {
-        	//dont split dates and decimals on dot.
-        	if (c == '\u002e' && dateOrDecimalPattern.matcher(
-        			lastToken.toString()).matches()) {
-        		lastToken.append(c);
-        		return true;
-        	}
+        	
         	lastToken = new StringBuffer("");
             return false;
         }

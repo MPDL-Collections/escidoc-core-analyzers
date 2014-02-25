@@ -40,6 +40,8 @@ import org.apache.lucene.analysis.LowerCaseFilter;
 import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.snowball.SnowballFilter;
+import org.apache.lucene.analysis.standard.ClassicTokenizer;
+import org.apache.lucene.util.Version;
 
 /**
  * Analyzer for all escidoc lucene indices.
@@ -89,14 +91,14 @@ public class EscidocAnalyzer extends Analyzer {
             log.debug("tokenizing with EscidocAnalyzer");
         }
 
-        // Tokenize with WhitespaceTokenizer
+        // Tokenize with ClassicTokenizer
         TokenStream result = new XmlWhitespaceTokenizer(reader);
 
         // apply filters
         // remove junk
         result = new JunkFilter(result);
         // make lowercase
-        result = new LowerCaseFilter(result);
+        result = new LowerCaseFilter(Version.LUCENE_34, result);
         // convert non-ascii-chars to ascii (eg french e to ascii)
         result = new ASCIIFoldingFilter(result);
 
@@ -107,9 +109,12 @@ public class EscidocAnalyzer extends Analyzer {
         }
         // remove stop words
         result =
-            new StopFilter(false, result,
-                StopFilter.makeStopSet(((String[]) (supportedLanguages.get(language))
-                    .get("stopwords")), true));
+            new StopFilter(Version.LUCENE_34, result,
+            					StopFilter.makeStopSet(
+            							Version.LUCENE_34, 
+            							((String[]) (supportedLanguages.get(language)).get("stopwords")), 
+            							true));
+                    
         if (language != null 
                 && supportedLanguages.get(language) != null
                 && (String) (supportedLanguages.get(language))
