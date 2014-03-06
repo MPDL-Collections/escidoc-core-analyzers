@@ -40,7 +40,6 @@ import org.apache.lucene.analysis.LowerCaseFilter;
 import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.snowball.SnowballFilter;
-import org.apache.lucene.analysis.standard.ClassicTokenizer;
 import org.apache.lucene.util.Version;
 
 /**
@@ -97,8 +96,10 @@ public class EscidocAnalyzer extends Analyzer {
         // apply filters
         // remove junk
         result = new JunkFilter(result);
+        
         // make lowercase
         result = new LowerCaseFilter(Version.LUCENE_34, result);
+        
         // convert non-ascii-chars to ascii (eg french e to ascii)
         result = new ASCIIFoldingFilter(result);
 
@@ -113,7 +114,7 @@ public class EscidocAnalyzer extends Analyzer {
             					StopFilter.makeStopSet(
             							Version.LUCENE_34, 
             							((String[]) (supportedLanguages.get(language)).get("stopwords")), 
-            							true));
+            							true));       
                     
         if (language != null 
                 && supportedLanguages.get(language) != null
@@ -156,5 +157,5 @@ public class EscidocAnalyzer extends Analyzer {
     public int getPositionIncrementGap(String fieldName) {
         return 1;
     }
-
+    
 }
