@@ -12,6 +12,7 @@ import org.apache.lucene.analysis.WhitespaceTokenizer;
 import org.apache.lucene.analysis.standard.ClassicTokenizer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import org.apache.lucene.util.Version;
 import org.junit.Ignore;
@@ -85,12 +86,12 @@ public class TestTokenizer {
 	}
 
 	private void doTokenizing(TokenStream ts) throws IOException {
-		TermAttribute termAtt = ts.addAttribute(TermAttribute.class);
+		CharTermAttribute termAtt = ts.addAttribute(CharTermAttribute.class);
 		try {
 			ts.reset();
 
 			while (ts.incrementToken()) {
-				String s = termAtt.term();
+				String s = termAtt.toString();
 				System.out.println("token: " + s);
 				
 			}

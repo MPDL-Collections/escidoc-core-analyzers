@@ -8,29 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import org.junit.Test;
 
 import de.escidoc.sb.common.lucene.analyzer.EscidocAnalyzer;
 
-public class TestEscidocAnalyzer {
-
-	static String[] terms = {
-
-		"Pb-207/Pb-204",
-		" Nb/La",
-		"nature of Sgr A*'s near-infrared",
-		"1,3-Bicyclo[1.1.1]pentanediyl",
-		"Meier, Hans",
-		"Xaver Müller",
-		"with other right"
-		
+public class TestEscidocAnalyzer extends TestBase{
 	
-	};
-	
+	private EscidocAnalyzer analyzer;
+
+	/*
+	 * Test of tokenizing and stop word lists.
+	 */
 	@Test
 	public void test() throws IOException {
-		EscidocAnalyzer analyzer = new EscidocAnalyzer();
+		analyzer = new EscidocAnalyzer();
 		analyzer.setLanguage("all");
 		TokenStream result;
 		
@@ -210,37 +203,26 @@ public class TestEscidocAnalyzer {
 		assertTrue(tokens.get(0).equals("god"));
 		assertTrue(tokens.get(1).equals("right"));
 		
-		result = analyzer.tokenStream("field", new StringReader("we didn't use the same brain twice"));
+		result = analyzer.tokenStream("field", new StringReader("Gott und Recht"));
+		tokens = doTokenizing(result);
+		assertTrue(tokens.size() == 2);
+		assertTrue(tokens.get(0).equals("gott"));
+		assertTrue(tokens.get(1).equals("recht"));
+		
+		result = analyzer.tokenStream("field", new StringReader("we never use the same brain twice"));
 		tokens = doTokenizing(result);
 		assertTrue(tokens.size() == 6);
 		assertTrue(tokens.get(0).equals("we"));
-		assertTrue(tokens.get(1).equals("didn't"));
+		assertTrue(tokens.get(1).equals("never"));
 		assertTrue(tokens.get(2).equals("use"));
 		assertTrue(tokens.get(3).equals("same"));
 		assertTrue(tokens.get(4).equals("brain"));
-		assertTrue(tokens.get(5).equals("twice"));		
+		assertTrue(tokens.get(5).equals("twice"));	
+		
+		result = analyzer.tokenStream("field", new StringReader("für"));
+		tokens = doTokenizing(result);
+		assertTrue(tokens.size() == 1);
+		
 	}
 	
-	private List<String> doTokenizing(TokenStream ts) throws IOException {
-		
-		List<String> tokens = new ArrayList<String>();
-		TermAttribute termAtt = ts.addAttribute(TermAttribute.class);
-		try {
-			ts.reset();
-
-			while (ts.incrementToken()) {
-				String s = termAtt.term();
-				tokens.add(s);
-				System.out.println("token: " + s);
-				
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		ts.clearAttributes();
-		ts.close();
-		
-		return tokens;
-	}
-
 }
