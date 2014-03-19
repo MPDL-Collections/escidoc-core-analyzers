@@ -44,7 +44,7 @@ public class Test {
      */
     public static void main(String[] args) {
         try {
-            Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_30);
+            Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_34);
             TokenStream ts = analyzer.tokenStream("myfield", new StringReader(
                     "αome text goes here"));
             ts = new GreekFilter(ts);
