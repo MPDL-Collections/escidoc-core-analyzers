@@ -1,15 +1,12 @@
 package test.de.escidoc.sb.common.lucene.analyzer;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import org.junit.Test;
 
 import de.escidoc.sb.common.lucene.analyzer.EscidocAnalyzer;
