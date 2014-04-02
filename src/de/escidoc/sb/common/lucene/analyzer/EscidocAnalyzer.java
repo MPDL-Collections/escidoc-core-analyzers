@@ -49,10 +49,15 @@ import org.apache.lucene.util.Version;
  * @sb
  */
 public class EscidocAnalyzer extends Analyzer {
+	
     private String language = null;
 
     private HashMap<String, HashMap> supportedLanguages =
         new HashMap<String, HashMap>();
+    
+    private int indexMode = 0;
+    
+    private TokenStream resultReindex = null;
 
     private static Log log = LogFactory.getLog(EscidocAnalyzer.class);
 
@@ -89,7 +94,60 @@ public class EscidocAnalyzer extends Analyzer {
         if (log.isDebugEnabled()) {
             log.debug("tokenizing with EscidocAnalyzer");
         }
+        
+        log.info("tokenizing with EscidocAnalyzer " + this);
+        
+        if (this.indexMode == 0) {
+        	return tokenStreamStandard(fieldName, reader);
+        } else  {
+        	return tokenStreamReindex(fieldName, reader);
+        }
 
+
+    }
+
+    private TokenStream tokenStreamReindex(String fieldName, Reader reader) {
+        // Tokenize with ClassicTokenizer
+        resultReindex = new XmlWhitespaceTokenizer(reader);
+
+        // apply filters
+        // remove junk
+        resultReindex = new JunkFilter(resultReindex);
+        
+        // make lowercase
+        resultReindex = new LowerCaseFilter(Version.LUCENE_34, resultReindex);
+        
+        // convert non-ascii-chars to ascii (eg french e to ascii)
+        resultReindex = new ASCIIFoldingFilter(resultReindex);
+
+        // Do further stop-word removal,
+        // stemming + normalization.
+        if (language == null || language.equals("")) {
+            language = "all";
+        }
+        // remove stop words
+        resultReindex =
+            new StopFilter(Version.LUCENE_34, resultReindex,
+            					StopFilter.makeStopSet(
+            							Version.LUCENE_34, 
+            							((String[]) (supportedLanguages.get(language)).get("stopwords")), 
+            							true));       
+                    
+        if (language != null 
+                && supportedLanguages.get(language) != null
+                && (String) (supportedLanguages.get(language))
+                .get("snowballType") != null) {
+            // stem
+            resultReindex =
+                new SnowballFilter(resultReindex,
+                    (String) (supportedLanguages.get(language))
+                        .get("snowballType"));
+        }
+
+        return resultReindex;
+	}
+
+	private TokenStream tokenStreamStandard(String fieldName, Reader reader) {
         // Tokenize with ClassicTokenizer
         TokenStream result = new XmlWhitespaceTokenizer(reader);
 
@@ -128,9 +186,9 @@ public class EscidocAnalyzer extends Analyzer {
         }
 
         return result;
-    }
+	}
 
-    /**
+	/**
      * @return Returns the language.
      */
     public String getLanguage() {
@@ -156,6 +214,16 @@ public class EscidocAnalyzer extends Analyzer {
      */
     public int getPositionIncrementGap(String fieldName) {
         return 1;
+    }
+    
+    public void setIndexMode(int mode) {	
+		this.indexMode = mode;
+		
+		log.info("indexMode of EscidocAnalyzer " + this + " set to " + indexMode );
+	}
+    
+    public int getIndexMode() {
+    	return this.indexMode;
     }
     
 }
