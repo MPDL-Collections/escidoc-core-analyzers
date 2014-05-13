@@ -83,17 +83,19 @@
 		<delete dir="${sources.dir}"/>
 	</target>
 
-	<target name="install" depends="jar">
+	<target name="install" depends="jar, sources">
 		<artifact:pom id="memorypom" groupId="org.escidoc" artifactId="${project.name}" version="${build.version}" name="Analyzers for eSciDoc" packaging="jar" />
 		<artifact:writepom pomRefId="memorypom" file="${dist.dir}/${project.name}-${build.version}.pom" />
 		<artifact:pom id="filepom" file="${dist.dir}/${project.name}-${build.version}.pom" />
 		<artifact:install file="${dist.dir}/${project.name}.jar">
 			<pom refid="filepom" />
+			<attach file="${dist.dir}/${project.name}-sources.zip" type="zip" classifier="sources"/>
 		</artifact:install>
 	</target>
 
 	<target name="deploy" depends="install">
 		<!-- deploy war -->
+		
 		<artifact:deploy file="${dist.dir}/${project.name}.jar">
 			<remoteRepository url="${artifactory.url}" id="${artifactory.id}" />
 			<pom refid="filepom" />
