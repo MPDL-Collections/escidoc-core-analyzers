@@ -33,7 +33,6 @@ import java.io.Reader;
 import java.util.regex.Pattern;
 
 import org.apache.lucene.analysis.CharTokenizer;
-import org.apache.lucene.util.Version;
 
 /**
  * @author mih
@@ -56,7 +55,7 @@ public class XmlWhitespaceTokenizer extends CharTokenizer {
      * 
      */
     public XmlWhitespaceTokenizer(final Reader in) {
-        super(in);
+        super(Constants.LUCENE_VERSION, in);
     }
 
     /**
@@ -64,27 +63,32 @@ public class XmlWhitespaceTokenizer extends CharTokenizer {
      * \u003c <
      * \u003e >
      * \u0026 &
+     * \u002e .
      * \u002c ,
      * \u003b ;
      * \u0021 !
      * \u003f ?
-     * 
+     *
      * @param c
-     *            character
+     * code point
      * @return true if whitespace-character, else false.
-     * 
+     *
      */
     @Override
-    protected boolean isTokenChar(final char c) {
-    	
+    protected boolean isTokenChar(final int c) {
         if (Character.isWhitespace(c) || c == '\u003c' || c == '\u003e'
-            || c == '\u0026' || c == '\u002c'
+            || c == '\u0026' || c == '\u002e' || c == '\u002c'
             || c == '\u003b' || c == '\u0021' || c == '\u003f') {
-        	
-        	lastToken = new StringBuffer("");
+         //dont split dates and decimals on dot.
+         if (c == '\u002e' && dateOrDecimalPattern.matcher(
+         lastToken.toString()).matches()) {
+         lastToken.append((char) c);
+         return true;
+         }
+         lastToken = new StringBuffer("");
             return false;
         }
-        lastToken.append(c);
+        lastToken.append((char)c);
         return true;
     }
 }

@@ -1,29 +1,27 @@
 package test.de.escidoc.sb.common.lucene.analyzer;
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.io.StringReader;
 
-import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.LetterTokenizer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.WhitespaceTokenizer;
 import org.apache.lucene.analysis.standard.ClassicTokenizer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.apache.lucene.analysis.tokenattributes.TermAttribute;
-import org.apache.lucene.util.Version;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import de.escidoc.sb.common.lucene.analyzer.Constants;
 import de.escidoc.sb.common.lucene.analyzer.XmlWhitespaceTokenizer;
 
 
 public class TestTokenizer {
 	
 	static String[] terms = {
+		"bitwise.",
+		"12.5",
+		"12,2",
 		"abc/cfg", 
 		"abc,cfg", 
 		"hdl:11858/00-001Z-0000-0023-453D-4",
@@ -49,7 +47,7 @@ public class TestTokenizer {
 		"nature of Sgr A*'s near-infrared",
 		"1,3-Bicyclo[1.1.1]pentanediyl",
 		"<framework.admin.username>roland</framework.admin.username>",
-		"separator1!separator2?separator3"
+		"separator1!separator2?separator3",
 	};
 
 	@Test
@@ -59,17 +57,17 @@ public class TestTokenizer {
 			
 			System.out.println("tokenizing: " + terms[i]);			
 			System.out.println("\ntokenizing with ClassicTokenizer");
-			doTokenizing(new ClassicTokenizer(Version.LUCENE_34, new StringReader(terms[i])));	
+			doTokenizing(new ClassicTokenizer(Constants.LUCENE_VERSION, new StringReader(terms[i])));	
 			System.out.println("end ClassicTokenizer ***********************\n ");	
 			
 			System.out.println("tokenizing: " + terms[i]);
 			System.out.println("\ntokenizing with StandardTokenizer");
-			doTokenizing(new StandardTokenizer(Version.LUCENE_34, new StringReader(terms[i])));	
+			doTokenizing(new StandardTokenizer(Constants.LUCENE_VERSION, new StringReader(terms[i])));	
 			System.out.println("end StandardTokenizer ***********************\n ");	
 			
 			System.out.println("tokenizing: " + terms[i]);
 			System.out.println("\ntokenizing with WhitespaceTokenizer");
-			doTokenizing(new WhitespaceTokenizer(Version.LUCENE_34, new StringReader(terms[i])));	
+			doTokenizing(new WhitespaceTokenizer(Constants.LUCENE_VERSION, new StringReader(terms[i])));	
 			System.out.println("end WhitespaceTokenizer ***********************\n ");	
 			
 			System.out.println("tokenizing: " + terms[i]);
@@ -79,7 +77,7 @@ public class TestTokenizer {
 			
 			/*System.out.println("tokenizing: " + terms[i]);
 			System.out.println("\ntokenizing with LetterTokenizer");
-			doTokenizing(new LetterTokenizer(Version.LUCENE_34, new StringReader(terms[i])));	
+			doTokenizing(new LetterTokenizer(Constants.LUCENE_VERSION, new StringReader(terms[i])));	
 			System.out.println("end LetterTokenizer ***********************\n ");	*/
 		}
 		System.out.println("end  ***********************\n ");	
@@ -111,7 +109,7 @@ public class TestTokenizer {
 			System.out.println("tokenizing: " + terms[i]);
 
 			// Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_30);
-			TokenStream ts = new StandardTokenizer(Version.LUCENE_34, reader);
+			TokenStream ts = new StandardTokenizer(Constants.LUCENE_VERSION, reader);
 
 			// TokenStream ts = analyzer.tokenStream("myfield", reader);
 
@@ -128,7 +126,7 @@ public class TestTokenizer {
 			StringReader reader = new StringReader(terms[i]);
 			System.out.println("tokenizing: " + terms[i]);
 
-			TokenStream ts = new LetterTokenizer(Version.LUCENE_34, reader);
+			TokenStream ts = new LetterTokenizer(Constants.LUCENE_VERSION, reader);
 
 			doTokenizing(ts);			
 		}
@@ -143,7 +141,7 @@ public class TestTokenizer {
 			StringReader reader = new StringReader(terms[i]);
 			System.out.println("tokenizing: " + terms[i]);
 
-			TokenStream ts = new WhitespaceTokenizer(Version.LUCENE_34, reader);
+			TokenStream ts = new WhitespaceTokenizer(Constants.LUCENE_VERSION, reader);
 
 			doTokenizing(ts);			
 		}

@@ -32,6 +32,8 @@ package de.escidoc.sb.common.lucene.analyzer;
 import java.io.IOException;
 import java.util.HashMap;
 
+import org.apache.lucene.util.Version;
+
 import de.escidoc.core.common.util.configuration.EscidocConfiguration;
 
 /**
@@ -109,5 +111,7 @@ public class Constants {
     public static final String ORG_UNIT_PATH_LIST_URL_SUFFIX = "/resources/path-list";
 
     public static final String SEARCH_PASSWORD = "password";
+    
+    public static final Version LUCENE_VERSION = Version.LUCENE_34;
 
 }

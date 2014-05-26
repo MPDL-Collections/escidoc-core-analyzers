@@ -115,7 +115,7 @@ public class EscidocAnalyzer extends Analyzer {
         resultReindex = new JunkFilter(resultReindex);
         
         // make lowercase
-        resultReindex = new LowerCaseFilter(Version.LUCENE_34, resultReindex);
+        resultReindex = new LowerCaseFilter(Constants.LUCENE_VERSION, resultReindex);
         
         // convert non-ascii-chars to ascii (eg french e to ascii)
         resultReindex = new ASCIIFoldingFilter(resultReindex);
@@ -127,9 +127,9 @@ public class EscidocAnalyzer extends Analyzer {
         }
         // remove stop words
         resultReindex =
-            new StopFilter(Version.LUCENE_34, resultReindex,
+            new StopFilter(Constants.LUCENE_VERSION, resultReindex,
             					StopFilter.makeStopSet(
-            							Version.LUCENE_34, 
+            							Constants.LUCENE_VERSION, 
             							((String[]) (supportedLanguages.get(language)).get("stopwords")), 
             							true));       
                     
@@ -156,7 +156,7 @@ public class EscidocAnalyzer extends Analyzer {
         result = new JunkFilter(result);
         
         // make lowercase
-        result = new LowerCaseFilter(Version.LUCENE_34, result);
+        result = new LowerCaseFilter(Constants.LUCENE_VERSION, result);
         
         // convert non-ascii-chars to ascii (eg french e to ascii)
         result = new ASCIIFoldingFilter(result);
@@ -168,9 +168,9 @@ public class EscidocAnalyzer extends Analyzer {
         }
         // remove stop words
         result =
-            new StopFilter(Version.LUCENE_34, result,
+            new StopFilter(Constants.LUCENE_VERSION, result,
             					StopFilter.makeStopSet(
-            							Version.LUCENE_34, 
+            							Constants.LUCENE_VERSION, 
             							((String[]) (supportedLanguages.get(language)).get("stopwords")), 
             							true));       
                     
