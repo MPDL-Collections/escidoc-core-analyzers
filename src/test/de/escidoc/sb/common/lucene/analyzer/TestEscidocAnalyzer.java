@@ -50,13 +50,17 @@ public class TestEscidocAnalyzer extends TestBase{
 		
 		result = analyzer.tokenStream("field", new StringReader("http://pubman.mpdl.mpg.de/pubman"));
 		tokens = doTokenizing(result);
-		assertTrue(tokens.size() == 1);
-		assertTrue(tokens.get(0).equals("http://pubman.mpdl.mpg.de/pubman"));
+		assertTrue(tokens.size() == 4);
+		assertTrue(tokens.get(0).equals("http://pubman"));
+		assertTrue(tokens.get(1).equals("mpdl"));
+		assertTrue(tokens.get(2).equals("mpg"));
+		assertTrue(tokens.get(3).equals("de/pubman"));
 		
 		result = analyzer.tokenStream("field", new StringReader("http://purl.org/eprint/type/Book"));
 		tokens = doTokenizing(result);
-		assertTrue(tokens.size() == 1);
-		assertTrue(tokens.get(0).equals("http://purl.org/eprint/type/book"));
+		assertTrue(tokens.size() == 2);
+		assertTrue(tokens.get(0).equals("http://purl"));
+		assertTrue(tokens.get(1).equals("org/eprint/type/book"));
 		
 		result = analyzer.tokenStream("field", new StringReader("S5 0014+813"));
 		tokens = doTokenizing(result);
@@ -121,10 +125,12 @@ public class TestEscidocAnalyzer extends TestBase{
 		
 		result = analyzer.tokenStream("field", new StringReader("quasar SDSS J172206.03+565451.6"));
 		tokens = doTokenizing(result);
-		assertTrue(tokens.size() == 3);
+		assertTrue(tokens.size() == 5);
 		assertTrue(tokens.get(0).equals("quasar"));
 		assertTrue(tokens.get(1).equals("sdss"));
-		assertTrue(tokens.get(2).equals("j172206.03+565451.6"));
+		assertTrue(tokens.get(2).equals("j172206"));
+		assertTrue(tokens.get(3).equals("03+565451"));
+		assertTrue(tokens.get(4).equals("6"));
 		
 		result = analyzer.tokenStream("field", new StringReader("0[110] transformation"));
 		tokens = doTokenizing(result);
@@ -172,9 +178,10 @@ public class TestEscidocAnalyzer extends TestBase{
 		
 		result = analyzer.tokenStream("field", new StringReader("1,3-Bicyclo[1.1.1]pentanediyl"));
 		tokens = doTokenizing(result);
-		assertTrue(tokens.size() == 2);
+		assertTrue(tokens.size() == 3);
 		assertTrue(tokens.get(0).equals("1"));
-		assertTrue(tokens.get(1).equals("3-bicyclo[1.1.1]pentanediyl"));
+		assertTrue(tokens.get(1).equals("3-bicyclo[1"));
+		assertTrue(tokens.get(2).equals("1.1]pentanediyl"));
 		
 		result = analyzer.tokenStream("field", new StringReader("Meier, Hans"));
 		tokens = doTokenizing(result);
