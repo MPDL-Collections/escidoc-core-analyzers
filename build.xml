@@ -96,7 +96,7 @@
 	<target name="deploy" depends="install">
 		<!-- deploy war -->
 		
-		<artifact:deploy file="${dist.dir}/${project.name}.jar">
+		<artifact:deploy file="${dist.dir}/${project.name}.jar" uniqueVersion="false">
 			<remoteRepository url="${artifactory.url}" id="${artifactory.id}" />
 			<pom refid="filepom" />
 		</artifact:deploy>
