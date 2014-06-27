@@ -94,9 +94,7 @@ public class EscidocAnalyzer extends Analyzer {
         if (log.isDebugEnabled()) {
             log.debug("tokenizing with EscidocAnalyzer");
         }
-        
-        log.info("tokenizing with EscidocAnalyzer " + this);
-        
+
         if (this.indexMode == 0) {
         	return tokenStreamStandard(fieldName, reader);
         } else  {
