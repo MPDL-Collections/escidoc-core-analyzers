@@ -227,6 +227,22 @@ public class TestEscidocAnalyzer extends TestBase{
 		tokens = doTokenizing(result);
 		assertTrue(tokens.size() == 1);
 		
+		result = analyzer.tokenStream("field", new StringReader("Äberle"));
+		tokens = doTokenizing(result);
+		assertTrue(tokens.size() == 1);
+		assertTrue(tokens.get(0).equals("aberle"));
+		
+		result = analyzer.tokenStream("field", new StringReader("Öbübärle"));
+		tokens = doTokenizing(result);
+		assertTrue(tokens.size() == 1);
+		assertTrue(tokens.get(0).equals("obubarle"));
+		
+		result = analyzer.tokenStream("field", new StringReader("Čadík"));
+		tokens = doTokenizing(result);
+		assertTrue(tokens.size() == 1);
+		assertTrue(tokens.get(0).equals("cadik"));
+
+		
 	}
 	
 }
