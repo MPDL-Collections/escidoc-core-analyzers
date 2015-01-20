@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.Normalizer;
 import java.util.List;
 
 import org.apache.lucene.analysis.ASCIIFoldingFilter;
@@ -24,5 +25,22 @@ public class TestASCIIFoldingFilter extends TestBase {
 		
 		assertTrue(r.get(0).equals("Uber"));
 	}
+	
+	@Test
+	public void testNormailzer() {
+		final String input = "Tĥïŝ ĩš â fůňķŷ Šťŕĭńġ";
+		System.out.println("Tĥïŝ ĩš â fůňķŷ Šťŕĭńġ " +
+		    Normalizer.normalize(input.toLowerCase(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", ""));
+		
+		System.out.println("Čadík " + 
+			    Normalizer.normalize("Čadík".toLowerCase(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "")); 
+		
+		System.out.println("本 " +  
+			    Normalizer.normalize("本".toLowerCase(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "")); 
+		
+		System.out.println("登録 " + 
+			    Normalizer.normalize("登録".toLowerCase(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "")); 
+	}
+	
 
 }
