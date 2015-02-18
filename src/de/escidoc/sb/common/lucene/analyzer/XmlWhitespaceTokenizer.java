@@ -78,14 +78,13 @@ public class XmlWhitespaceTokenizer extends CharTokenizer {
     protected boolean isTokenChar(final int c) {
         if (Character.isWhitespace(c) || c == '\u003c' || c == '\u003e'
             || c == '\u0026' || c == '\u002e' || c == '\u002c'
-            || c == '\u003b' || c == '\u0021' || c == '\u003f') {
-         //dont split dates and decimals on dot.
-         if (c == '\u002e' && dateOrDecimalPattern.matcher(
-         lastToken.toString()).matches()) {
-         lastToken.append((char) c);
-         return true;
-         }
-         lastToken = new StringBuffer("");
+		    || c == '\u003b' || c == '\u0021' || c == '\u003f') {
+	         //dont split dates and decimals on dot.
+	         if (c == '\u002e' && dateOrDecimalPattern.matcher(lastToken.toString()).matches()) { 
+		         lastToken.append((char) c);
+		         return true;
+	         }
+         	lastToken = new StringBuffer("");
             return false;
         }
         lastToken.append((char)c);
