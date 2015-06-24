@@ -89,9 +89,9 @@ public class EscidocAnalyzer extends Analyzer {
      * @sb
      */
     @Override
-    public TokenStream tokenStream(final String fieldName, final Reader reader) {
+    public final TokenStream tokenStream(final String fieldName, final Reader reader) {
         if (log.isDebugEnabled()) {
-            log.debug("tokenizing with EscidocAnalyzer");
+            log.trace("tokenizing with EscidocAnalyzer");
         }
 
         if (this.indexMode == 0) {
