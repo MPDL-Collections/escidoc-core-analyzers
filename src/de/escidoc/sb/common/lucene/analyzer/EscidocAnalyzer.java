@@ -29,6 +29,7 @@
 
 package de.escidoc.sb.common.lucene.analyzer;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.util.HashMap;
 
@@ -102,6 +103,12 @@ public class EscidocAnalyzer extends Analyzer {
 
 
     }
+    
+    public final TokenStream reusableTokenStream(String fieldName, Reader reader) throws IOException     
+    {
+       return super.reusableTokenStream(fieldName, reader);
+    }
+
 
     private TokenStream tokenStreamReindex(String fieldName, Reader reader) {
         // Tokenize with ClassicTokenizer
