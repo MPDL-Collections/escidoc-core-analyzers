@@ -30,6 +30,9 @@ public class TestASCIIFoldingFilter extends TestBase {
 	@Test
 	public void testNormailzer() {
 
+		System.out.println("_________________________________");
+		System.out.println("\nNormalizer.normalize \n");
+		
 		System.out.println("Tĥïŝ ĩš â fůňķŷ Šťŕĭńġ " +  "xxx " +
 		    Normalizer.normalize("Tĥïŝ ĩš â fůňķŷ Šťŕĭńġ ".toLowerCase(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", ""));
 		
@@ -54,9 +57,12 @@ public class TestASCIIFoldingFilter extends TestBase {
 		System.out.println("Über dän Wölken " +  "xxx " + 
 			    Normalizer.normalize("Über dän Wölken".toLowerCase(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "")); 
 		
-		System.out.println("\nUsing StringUtils.stripAccents \n");
+		System.out.println("Kılıç " +  "xxx " + 
+			    Normalizer.normalize("Kılıç".toLowerCase(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "")); 
+
 		System.out.println("_________________________________");
-		
+		System.out.println("\nUsing StringUtils.stripAccents \n");
+	
 		System.out.println("Tĥïŝ ĩš â fůňķŷ Šťŕĭńġ " +  "xxx " +
 			    StringUtils.stripAccents("Tĥïŝ ĩš â fůňķŷ Šťŕĭńġ ".toLowerCase()));
 			
@@ -80,6 +86,9 @@ public class TestASCIIFoldingFilter extends TestBase {
 		
 		System.out.println("Über dän Wölken " +  "xxx " +
 				StringUtils.stripAccents("Über dän Wölken  ".toLowerCase()));
+		
+		System.out.println("Kılıç " +  "xxx " + 
+				StringUtils.stripAccents("Kılıç".toLowerCase())); 
 			
 	}
 
