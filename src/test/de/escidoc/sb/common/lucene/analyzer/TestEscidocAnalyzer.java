@@ -241,7 +241,19 @@ public class TestEscidocAnalyzer extends TestBase{
 		tokens = doTokenizing(result);
 		assertTrue(tokens.size() == 1);
 		assertTrue(tokens.get(0).equals("cadik"));
-
+		
+		result = analyzer.tokenStream("field", new StringReader("Steps or Terraces? Dynamics of Aromatic Hydrocarbons Adsorbed at Vicinal Metal Surfaces"));
+		tokens = doTokenizing(result);
+		assertTrue(tokens.size() == 9);
+		assertTrue(tokens.get(0).equals("steps"));
+		assertTrue(tokens.get(1).equals("terraces"));
+		assertTrue(tokens.get(2).equals("dynamics"));
+		assertTrue(tokens.get(3).equals("aromatic"));
+		assertTrue(tokens.get(4).equals("hydrocarbons"));
+		assertTrue(tokens.get(5).equals("adsorbed"));	
+		assertTrue(tokens.get(6).equals("vicinal"));	
+		assertTrue(tokens.get(7).equals("metal"));	
+		assertTrue(tokens.get(8).equals("surfaces"));	
 		
 	}
 	
